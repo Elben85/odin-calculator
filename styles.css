@@ -33,12 +33,12 @@ body div {
     flex-direction: column;
 }
 
-.screen div{
+.screen div {
     padding: 10px;
     justify-content: flex-end;
 }
 
-#display1{
+#display1 {
     font-size: 30px;
     min-width: 50px;
     text-align: right;
@@ -48,7 +48,7 @@ body div {
 
 }
 
-#display2{
+#display2 {
     font-size: 50px;
     min-width: 70px;
     text-align: right;
@@ -88,7 +88,7 @@ body div {
     cursor: pointer;
 }
 
-#clear,  #backspace{
+#clear,  #backspace {
     font-size: 25px;
     width: 200px;
     height: 60px;
@@ -101,7 +101,7 @@ body div {
     border-radius: 50%;
 }
 
-.button:hover, #clear:hover, #backspace:hover{
+.button:hover, #clear:hover, #backspace:hover {
     cursor: pointer;
     scale: 1.1;
     border: 3px solid purple;
