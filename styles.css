@@ -1,0 +1,109 @@
+body {
+    display: flex;
+    align-items: center;
+    justify-content: center;
+    width: 100vw;
+    min-height: 100vh;
+    padding: 50px 0px;
+    background: black;
+}
+
+body div {
+    display: flex;
+    flex-direction: row;
+    color: white;
+}
+
+.container {
+    flex-direction: column;
+    width: 500px;
+    flex: 0 0 auto;
+    background: grey;
+    padding: 50px;
+    row-gap: 30px;
+    border: 3px solid black;
+    box-shadow: 0px 0px 40px #83EEFF;
+}
+
+.screen {
+    min-height: 140px;
+    background: black;
+    border: 3px solid white;
+    box-shadow: 0px 0px 10px whitesmoke;
+    flex-direction: column;
+}
+
+.screen div {
+    padding: 10px;
+    justify-content: flex-end;
+}
+
+#display1 {
+    font-size: 30px;
+    min-width: 50px;
+    text-align: right;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+}
+
+#display2 {
+    font-size: 50px;
+    min-width: 70px;
+    text-align: right;
+    word-wrap: break-word;
+    white-space: pre-wrap;
+    word-break: break-word;
+
+}
+
+.buttons {
+    flex-direction: column;
+    row-gap: 50px;
+}
+
+.row {
+    min-height: 50px;
+    column-gap: 10px;
+    align-items: center;
+    justify-content: space-evenly;
+}
+
+.button {
+    width: 80px;
+    height: 60px;
+    font-size: 30px;
+    border-radius: 100%;
+    padding: 10px 0px;
+    align-items: center;
+    justify-content: center;
+    background: black;
+    color: white;
+    border: 3px solid white;
+    box-shadow: 0px 0px 10px whitesmoke;
+}
+
+.button:hover {
+    cursor: pointer;
+}
+
+#clear,  #backspace {
+    font-size: 25px;
+    width: 200px;
+    height: 60px;
+    padding: 10px;
+    justify-content: center;
+    align-items: center;
+    background: black;
+    border: 3px solid white;
+    box-shadow: 0px 0px 10px whitesmoke;
+    border-radius: 50%;
+}
+
+.button:hover, #clear:hover, #backspace:hover {
+    cursor: pointer;
+    scale: 1.1;
+    border: 3px solid purple;
+    box-shadow: 0px 0px 20px violet;
+}
