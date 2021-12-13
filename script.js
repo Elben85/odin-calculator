@@ -1,3 +1,8 @@
+const FIRST_OPERAND_INPUT_STATE = 1;
+const OPERATOR_INPUT_STATE = 2;
+const SECOND_OPERAND_INPUT_STATE = 3;
+let state = FIRST_OPERAND_INPUT_STATE;
+
 const numberButtons = document.getElementsByClassName("number");
 const operatorButtons = document.getElementsByClassName("operator");
 const decimalButton = document.getElementById("decimal");
@@ -25,27 +30,49 @@ let operator = "";
 let secondOperand = "";
 let isDecimalClicked = false;
 
+function adjustState() {
+    if (secondOperand !== "") {
+        state = SECOND_OPERAND_INPUT_STATE;
+    } else if (operator !== "") {
+        state = OPERATOR_INPUT_STATE;
+    } else {
+        state = FIRST_OPERAND_INPUT_STATE
+    }
+}
+
+function isDecimalClickedReassignment() {
+    if (state === FIRST_OPERAND_INPUT_STATE) {
+        isDecimalClicked = firstOperand.includes(".");
+    } else {
+        isDecimalClicked = secondOperand.includes(".");
+    }
+}
+
 function resetCalculator() {
     firstOperand = "";
     operator = "";
     secondOperand = "";
     isDecimalClicked = false;
+    adjustState();
     display();
 }
 
 function handleBackspaceButtonClick() {
-    if (secondOperand !== "") {
+    if (state === SECOND_OPERAND_INPUT_STATE) {
         secondOperand = secondOperand.slice(0, -1);
-    } else if (operator !== "") {
+    } else if (state === OPERATOR_INPUT_STATE) {
         operator = "";
-    } else if (firstOperand !== "") {
+    } else {
         firstOperand = firstOperand.slice(0, -1);
     }
+
+    adjustState();
+    isDecimalClickedReassignment();
     display();
 }
 
 function display() {
-    if (operator === "") {
+    if (state === FIRST_OPERAND_INPUT_STATE) {
         displayPanelTop.textContent = "";
         displayPanelBottom.textContent = `${firstOperand}`;
     } else {
@@ -59,7 +86,7 @@ function handleDecimalButtonClick() {
         return;
     }
 
-    if (operator === "") {
+    if (state === FIRST_OPERAND_INPUT_STATE) {
         if (firstOperand === "" || firstOperand === "-") {
             firstOperand += "0";
         }
@@ -71,14 +98,13 @@ function handleDecimalButtonClick() {
         secondOperand += ".";
     }
 
+    adjustState();
     display();
     isDecimalClicked = true;
-    console.log(firstOperand);
-    console.log(secondOperand);
 }
 
 function handleNumberButtonClick(element) {
-    if (operator === "") {
+    if (state === FIRST_OPERAND_INPUT_STATE) {
         if (firstOperand === "0") {
             firstOperand = element.textContent.replace(/\s/g, "");
         } else if (firstOperand === "-0") {
@@ -93,9 +119,9 @@ function handleNumberButtonClick(element) {
             secondOperand += element.textContent.replace(/\s/g, "");
         }
     }
+
+    adjustState();
     display();
-    console.log(firstOperand);
-    console.log(secondOperand);
 }
 
 function handleOperatorButtonClick(element) {
@@ -109,19 +135,19 @@ function handleOperatorButtonClick(element) {
         return;
     }
 
-    if (secondOperand === "") {
-        isDecimalClicked = false;
+    if (state !== SECOND_OPERAND_INPUT_STATE) {
         operator = element.textContent.replace(/\s/g, "");
     } else {
-        if (calculate()) {
+        calculate();
+        if (state !== FIRST_OPERAND_INPUT_STATE) {
             return;
         }
         operator = element.textContent.replace(/\s/g, "");
     }
 
+    isDecimalClicked = false;
+    adjustState();
     display();
-
-    console.log(operator);
 }
 
 function add(x, y) {
@@ -137,11 +163,10 @@ function multiply(x, y) {
 }
 
 function divide(x, y) {
-    if (y !== 0) {
-        return Math.round(x / y * 100000) / 100000;
+    if (y === 0) {
+        throw new Error("Can't Divide by 0");
     }
-
-    alert("Can't Divide By 0");
+    return Math.round(x / y * 100000) / 100000;
 }
 
 function calculate() {
@@ -152,20 +177,24 @@ function calculate() {
     } else if (operator === "x") {
         firstOperand = `${multiply(+firstOperand, +secondOperand)}`;
     } else {
-        const result = divide(+firstOperand, +secondOperand);
-        if (result === undefined) {
-            return true;
+        try {
+            firstOperand = `${divide(+firstOperand, +secondOperand)}`;
         }
-        firstOperand = `${result}`;
+        catch (err) {
+            alert(err.message);
+            return;
+        }
     }
+
     secondOperand = "";
     operator = "";
-    isDecimalClicked = false;
+    adjustState();
+    isDecimalClickedReassignment();
     display();
 }
 
 function handleEqualButtonClick() {
-    if (secondOperand === "") {
+    if (state !== SECOND_OPERAND_INPUT_STATE) {
         return;
     }
     calculate();
