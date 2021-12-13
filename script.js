@@ -133,11 +133,9 @@ function handleOperatorButtonClick(element) {
         firstOperand = "-";
         display();
         return;
-    }
-
-    if (state !== SECOND_OPERAND_INPUT_STATE) {
+    } else if (state === FIRST_OPERAND_INPUT_STATE || state === OPERATOR_INPUT_STATE) {
         operator = element.textContent.replace(/\s/g, "");
-    } else {
+    } else if (state === SECOND_OPERAND_INPUT_STATE) {
         calculate();
         if (state !== FIRST_OPERAND_INPUT_STATE) {
             return;
